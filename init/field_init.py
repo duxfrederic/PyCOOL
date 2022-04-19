@@ -50,13 +50,13 @@ def sample_defrost_cpu(lat, func, gamma, m2_eff):
     fft = fftw3.Plan(ker, ker, direction='forward', flags=['measure'],
                      realtypes = ['realodd 10'])
 
-    for k in xrange(nos):
+    for k in range(nos):
         kk = (k+0.5)*dkos
         ker[k]=(kk*(kk**2. + m2_eff)**gamma)*math.exp(-(kk/kcut)**2.)
     fft.execute()
     fftw3.destroy_plan(fft)
 
-    for k in xrange(nos):
+    for k in range(nos):
         ker[k] = norm*ker[k]/(k+1)
 
     l0 = int(np.floor(np.sqrt(3)*n/2*os))
@@ -78,7 +78,7 @@ def sample_defrost_cpu(lat, func, gamma, m2_eff):
     Fk = np.fft.rfftn(tmp)
     
     if lat.test==True:
-        print'Testing mode on! Set testQ to False to disable this.\n'
+        print('Testing mode on! Set testQ to False to disable this.\n')
         np.random.seed(1)
         
     rr1 = np.random.normal(size=Fk.shape) + np.random.normal(size=Fk.shape)*1j
@@ -121,13 +121,13 @@ def sample_defrost_cpu2(lat, func, gamma, m2_eff):
     fft = fftw3.Plan(ker,ker, direction='forward', flags=['measure'],
                      realtypes = ['realodd 10'])
 
-    for k in xrange(nos):
+    for k in range(nos):
         kk = (k+0.5)*dkos
         ker[k] = kk*(kk**2. + m2_eff)**gamma*math.exp(-(kk/kcut)**2.)
     fft.execute()
     fftw3.destroy_plan(fft)
 
-    for k in xrange(nos):
+    for k in range(nos):
         ker[k] = norm*ker[k]/(k+1)
 
     tmp = np.zeros((n,n,n),dtype = lat.prec_real)
@@ -149,7 +149,7 @@ def sample_defrost_cpu2(lat, func, gamma, m2_eff):
     fftw3.destroy_plan(fft2)
     
     if lat.test==True:
-        print'Testing mode on! Set testQ to False to disable this.\n'
+        print('Testing mode on! Set testQ to False to disable this.\n')
         np.random.seed(1)
 
     rr1 = np.random.normal(size=Fk.shape) + np.random.normal(size=Fk.shape)*1j
@@ -194,13 +194,13 @@ def sample_defrost_gpu(lat, func, gamma, m2_eff):
     fft1 = fftw3.Plan(ker,ker, direction='forward', flags=['measure'],
                      realtypes = ['realodd 10'])
 
-    for k in xrange(nos):
+    for k in range(nos):
         kk = (k+0.5)*dkos
         ker[k]=kk*(kk**2. + m2_eff)**gamma*math.exp(-(kk/kcut)**2.)
     fft1.execute()
     fftw3.destroy_plan(fft1)
 
-    for k in xrange(nos):
+    for k in range(nos):
         ker[k] = norm*ker[k]/(k+1)
 
     Fk_gpu = gpuarray.zeros((n/2+1,n,n), dtype = lat.prec_complex)
@@ -218,7 +218,7 @@ def sample_defrost_gpu(lat, func, gamma, m2_eff):
     fft.fft(tmp_gpu, Fk_gpu, plan)
     
     if lat.test==True:
-        print'Testing mode on! Set testQ to False to disable this.\n'
+        print('Testing mode on! Set testQ to False to disable this.\n')
         np.random.seed(1)
 
     rr1 = (np.random.normal(size=Fk_gpu.shape)+
@@ -267,16 +267,16 @@ def f_init(lat, field0, field_i, m2_eff, flag_method='defrost_cpu', homogQ=True)
 
     if flag_method=='defrost_gpu':
         f = sample_defrost_gpu(lat, gpu_conv,-0.25, m2_eff) + c*field0
-        print "\nField " + repr(field_i)+ " init on gpu done"
+        print("\nField " + repr(field_i)+ " init on gpu done")
     elif flag_method=='defrost_cpu':
         f = sample_defrost_cpu(lat, gpu_conv,-0.25, m2_eff) + c*field0
-        print "\nField " + repr(field_i)+ " init on cpu done"
+        print("\nField " + repr(field_i)+ " init on cpu done")
     elif flag_method=='defrost_cpu2':
         f = sample_defrost_cpu2(lat, gpu_conv,-0.25, m2_eff) + c*field0
-        print "\nField " + repr(field_i)+ " init on cpu done"
+        print("\nField " + repr(field_i)+ " init on cpu done")
     elif flag_method=='uniform':
         f = np.random.random(lat.dims_xyz)*field0 + c*field0
-        print "\nField " + repr(field_i)+ " init on cpu done"
+        print("\nField " + repr(field_i)+ " init on cpu done")
 
     return np.array(f, dtype = lat.prec_real)
 
@@ -312,16 +312,16 @@ def fp_init(lat, pi0, field_i, m2_eff, a_in,
 
     if flag_method=='defrost_gpu':
         fp = sample_defrost_gpu(lat, gpu_conv, 0.25, m2_eff) + c*pi0
-        print "Field " + repr(field_i)+ " time derivative init on gpu done"
+        print("Field " + repr(field_i)+ " time derivative init on gpu done")
     elif flag_method=='defrost_cpu':
         fp = sample_defrost_cpu(lat, gpu_conv, 0.25, m2_eff) + c*pi0
-        print "Field " + repr(field_i)+ " time derivative init on cpu done"
+        print("Field " + repr(field_i)+ " time derivative init on cpu done")
     elif flag_method=='defrost_cpu2':
         fp = sample_defrost_cpu2(lat, gpu_conv, 0.25, m2_eff) + c*pi0
-        print "Field " + repr(field_i)+ " time derivative init on cpu done"
+        print("Field " + repr(field_i)+ " time derivative init on cpu done")
     elif flag_method=='uniform':
         fp = np.random.random(lat.dims_xyz)*pi0 + c*pi0
-        print "\nField " + repr(field_i)+ " init on cpu done"
+        print("\nField " + repr(field_i)+ " init on cpu done")
     else:
         import sys
         sys.exit(("Init method ill defined!"))

@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-from misc_functions import *
+from .misc_functions import *
 
 
 def namestr(obj, namespace):
@@ -8,12 +8,12 @@ def namestr(obj, namespace):
 
 def checker(some_list,n):
     if len(some_list)!=n:
-        print 'length of '+namestr(some_list,
-                                   globals())[0] + ' is not equal to '+str(n)
+        print('length of '+namestr(some_list,
+                                   globals())[0] + ' is not equal to '+str(n))
 
 def dim_test(a,b,c):
     if a*b!=c:
-        print 'Init dimensions do not match with the evolution dimensions!'
+        print('Init dimensions do not match with the evolution dimensions!')
         sys.exit()
 
 "Various constants"
@@ -99,7 +99,7 @@ class Lattice:
                  alpha=40.0, init_m = 'defrost_cpu',
                  hom_mode = True, unit_m = 'm', scale = True):
 
-        print '\nLattice size = ' + str(model.n) + '**3'
+        print('\nLattice size = ' + str(model.n) + '**3')
 
         self.init_mode = init_m
         self.hom_mode = hom_mode
@@ -376,9 +376,9 @@ class Lattice:
 
         self.fields = len(model.fields0)
 
-        self.field_list = ['f'+str(i) for i in xrange(1,self.fields+1)]
-        self.field_back_list = ['f0'+str(i) for i in xrange(1,self.fields+1)]
-        self.dfield_list = ['df'+str(i) for i in xrange(1,self.fields+1)]
+        self.field_list = ['f'+str(i) for i in range(1,self.fields+1)]
+        self.field_back_list = ['f0'+str(i) for i in range(1,self.fields+1)]
+        self.dfield_list = ['df'+str(i) for i in range(1,self.fields+1)]
 
         self.fields = self.fields
         self.field_rho = model.field_rho
@@ -407,7 +407,7 @@ class Potential:
         "Form the total potential and interaction functions:"
         if len(self.v_l)>0:
             self.V = self.v_l[0]
-            for i in xrange(1,len(self.v_l)):
+            for i in range(1,len(self.v_l)):
                 self.V += ' + ' + self.v_l[i]
             if len(self.v_int)>0 and self.v_int != ['']:
                 for x in self.v_int:
@@ -415,14 +415,14 @@ class Potential:
         else:
             if len(self.v_int)>0 and self.v_int != ['']:
                 self.V = self.v_int[0]
-                for i in xrange(1,len(self.v_int)):
+                for i in range(1,len(self.v_int)):
                     self.V += ' + ' + self.v_int[i]
             else:
                 self.V = ''
 
         if len(self.v_int)>0 and self.v_int != ['']:
             self.V_int = self.v_int[0]
-            for i in xrange(1,len(self.v_int)):
+            for i in range(1,len(self.v_int)):
                 self.V_int += ' + ' + self.v_int[i]
         else:
             self.V_int = '0.0'
@@ -435,8 +435,8 @@ class Potential:
             self.tmp_var = model.tmp_var
 
         "List of different coefficients in potential function:"
-        self.C_list = ['C'+str(i) for i in xrange(1,len(model.C_coeff)+1)]
-        self.D_list = ['D'+str(i) for i in xrange(1,len(model.D_coeff)+1)]
+        self.C_list = ['C'+str(i) for i in range(1,len(model.C_coeff)+1)]
+        self.D_list = ['D'+str(i) for i in range(1,len(model.D_coeff)+1)]
 
         self.C_coeff = model.C_coeff
         self.C_coeffs_np = np.array(model.C_coeff,dtype = lat.prec_real)
@@ -463,9 +463,9 @@ class Potential:
             self.V_i_H3 = [V_calc(self.v_l[i], n, self.f_list, i+1,
                                   self.power_list, self.C_list, self.D_list,
                                   'H3', deriv_n=0,multiplier='4')
-                           for i in xrange(lat.fields)]
+                           for i in range(lat.fields)]
         else:
-            self.V_i_H3 = [None for f in xrange(lat.fields)]
+            self.V_i_H3 = [None for f in range(lat.fields)]
 
         """Interaction term V_{int} of the fields in CUDA form used in
            the H3 kernel:"""
@@ -482,7 +482,7 @@ class Potential:
         self.dV_H3 = [V_calc(self.V, n, self.f_list, i+1, self.power_list,
                              self.C_list, self.D_list, 'H3', deriv_n=1,
                              tmpQ = lat.tmpQ, tmp_list = self.tmp_terms)
-                         for i in xrange(lat.fields)]
+                         for i in range(lat.fields)]
 
         """Potential function V_{i} of field i in CUDA form used in rho and
            pressure kernels:"""
@@ -490,9 +490,9 @@ class Potential:
             self.V_i_rp = [V_calc(self.v_l[i], n, self.f_list, i+1,
                                   self.power_list, self.C_list, self.D_list,
                                   'rp', deriv_n=0)
-                           for i in xrange(lat.fields)]
+                           for i in range(lat.fields)]
         else:
-            self.V_i_rp = [None for f in xrange(lat.fields)]
+            self.V_i_rp = [None for f in range(lat.fields)]
 
 
         """Interaction term V_{int} of the fields in CUDA form used in
@@ -510,15 +510,15 @@ class Potential:
         self.d2V_Cuda = [V_calc(self.V , n, self.f_list, i+1,
                                 self.power_list, self.C_list,
                                 self.D_list, 'H3', deriv_n=2)
-                         for i in xrange(lat.fields)]
+                         for i in range(lat.fields)]
 
         if len(self.v_l)>0 and automatic:
             self.V_pd_i = [V_calc(self.v_l[i] , n, self.f_list, i+1,
                                   self.power_list,  self.C_list, self.D_list,
                                   'pd', multiplier = '4')
-                           for i in xrange(lat.fields)]
+                           for i in range(lat.fields)]
         else:
-            self.V_pd_i = [None for f in xrange(lat.fields)]
+            self.V_pd_i = [None for f in range(lat.fields)]
 
         if len(self.v_int)>0 and self.v_int != ['']:
             self.V_pd_int = V_calc(self.V_int, n, self.f_list, lat.fields,
@@ -534,7 +534,7 @@ class Potential:
                               self.power_list,  self.C_list, self.D_list,
                               'pd', deriv_n=2,
                               tmpQ = lat.tmpQ, tmp_list = self.tmp_terms)
-                       for i in xrange(lat.fields)]
+                       for i in range(lat.fields)]
 
         """Read the different numerical coefficients in front of the
            C_i terms in dV/df and d^2V/df^2 functions:"""
@@ -560,14 +560,14 @@ class Potential:
                                        self.C_list, self.D_list,
                                        self.C_coeff, self.D_coeff,
                                        deriv_n=1)
-                            for i in xrange(lat.fields)]
+                            for i in range(lat.fields)]
 
             self.d2V_back = [V_calc_lin(self.V, n, self.f_list, i+1,
                                        self.power_list,
                                        self.C_list, self.D_list,
                                         self.C_coeff, self.D_coeff,
                                        deriv_n=2)
-                            for i in xrange(lat.fields)]
+                            for i in range(lat.fields)]
 
         "Lenght of the constant memory arrays:"
 

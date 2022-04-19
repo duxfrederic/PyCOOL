@@ -1,10 +1,10 @@
 import pycuda.driver as cuda
 import numpy as np
-import integrator.symp_integrator as si
-import postprocess.procedures as pp
+from . import integrator.symp_integrator as si
+from . import postprocess.procedures as pp
 
-from lattice import *
-from misc_functions import *
+from .lattice import *
+from .misc_functions import *
 
 """
 ####################################################################
@@ -106,8 +106,8 @@ def run_non_linear(lat, V, sim, evo, postp, model, start, end, data_path,
     ln_a_list = []
     r_list = []
 
-    for i in xrange(1,model.sim_num+1):
-        print '\nSimulation run: ', i
+    for i in range(1,model.sim_num+1):
+        print('\nSimulation run: ', i)
 
         if model.saveQ:
             data_folder = make_subdir(data_path, sim_number=i)
@@ -118,7 +118,7 @@ def run_non_linear(lat, V, sim, evo, postp, model, start, end, data_path,
         """Solve background and linearized perturbations if necessary
             (This has not been tested thoroughly!):"""
         if model.lin_evo:
-            print '\nLinearized simulatios:\n'
+            print('\nLinearized simulatios:\n')
 
             "Save initial data:"
             evo.calc_rho_pres(lat, V, sim, print_Q, print_w)
@@ -142,7 +142,7 @@ def run_non_linear(lat, V, sim, evo, postp, model, start, end, data_path,
 
 
 
-        print '\nNon-linear simulation:\n'
+        print('\nNon-linear simulation:\n')
 
         "Solve non-linear equations:"
         solve_non_linear(lat, V, sim, evo, postp, model, data_folder,

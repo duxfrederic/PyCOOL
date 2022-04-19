@@ -20,7 +20,7 @@ def kernel_H2_gpu_code(lat, write_code=False):
 
     kernel_name = 'kernel_H2'
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
     
     f = codecs.open('cuda_templates/kernel_H2.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -32,7 +32,7 @@ def kernel_H2_gpu_code(lat, write_code=False):
   
     sumi = 'sum_i += pi1*pi1'
     if fields>=2:
-        for i in xrange(2,fields+1):
+        for i in range(2,fields+1):
             sumi += ' + pi'+str(i)+'*'+'pi'+str(i)
     sumi = sumi + ';'
 
@@ -67,7 +67,7 @@ def kernel_H3_gpu_code(lat, field_i, V, write_code=False):
 
     kernel_name = 'kernel_H3_' + 'field' + str(field_i)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/kernel_H3.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -92,7 +92,7 @@ def kernel_H3_gpu_code(lat, field_i, V, write_code=False):
 
     if lat.tmpQ:
         tmp_trms = ''
-        for j in xrange(len(V.tmp_terms)):
+        for j in range(len(V.tmp_terms)):
             tmp_trms += 'tmp' + str(j + 1) + ' = ' + V.tmp_terms[j] + ';\n'
         trms = len(V.tmp_terms)
     else:
@@ -151,7 +151,7 @@ def kernel_H3_new_gpu_code(lat, field_i, V, write_code=False):
 
     kernel_name = 'kernel_H3_new_' + 'field' + str(field_i)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/kernel_H3_new.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -176,7 +176,7 @@ def kernel_H3_new_gpu_code(lat, field_i, V, write_code=False):
 
     if lat.tmpQ:
         tmp_trms = ''
-        for j in xrange(len(V.tmp_terms)):
+        for j in range(len(V.tmp_terms)):
             tmp_trms += 'tmp' + str(j + 1) + ' = ' + V.tmp_terms[j] + ';\n'
         trms = len(V.tmp_terms)
     else:
@@ -228,7 +228,7 @@ def kernel_lin_evo_gpu_code(lat, V, sim, write_code=True):
 
     kernel_name = 'kernel_linear_evo'
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/kernel_linear_evo.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -319,7 +319,7 @@ def kernel_k2_gpu_code(lat, V, write_code=False):
 
     kernel_name = 'kernel_k2'
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/'+kernel_name+'.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -424,7 +424,7 @@ def kernel_rho_pres_gpu_code(lat, field_i, V, write_code=False):
     if lat.tmpQ and field_i == fields:
         tmpQ = True
         tmp_trms = ''
-        for j in xrange(len(V.tmp_terms)):
+        for j in range(len(V.tmp_terms)):
             tmp_trms += 'tmp' + str(j + 1) + ' = ' + V.tmp_terms[j] + ';\n'
         trms = len(V.tmp_terms)
     else:
@@ -435,7 +435,7 @@ def kernel_rho_pres_gpu_code(lat, field_i, V, write_code=False):
 
     kernel_name = 'kernel_rho_pres_' + 'field' + str(field_i)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/rho_pres.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -519,7 +519,7 @@ def kernel_rho_pres_new_gpu_code(lat, field_i, V, write_code=False):
     if lat.tmpQ and field_i == fields:
         tmpQ = True
         tmp_trms = ''
-        for j in xrange(len(V.tmp_terms)):
+        for j in range(len(V.tmp_terms)):
             tmp_trms += 'tmp' + str(j + 1) + ' = ' + V.tmp_terms[j] + ';\n'
         trms = len(V.tmp_terms)
     else:
@@ -530,7 +530,7 @@ def kernel_rho_pres_new_gpu_code(lat, field_i, V, write_code=False):
 
     kernel_name = 'kernel_rho_pres_new_' + 'field' + str(field_i)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/rho_pres_new.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -583,7 +583,7 @@ def kernel_gws_gpu_code(lat, tensor_ij, V, write_code=False):
 
     kernel_name = 'kernel_gws_' + 'tensor' + str(tensor_ij)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/kernel_gws.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -622,7 +622,7 @@ def kernel_gws_new_gpu_code(lat, tensor_ij, V, write_code=False):
 
     kernel_name = 'kernel_gws_new_' + 'tensor' + str(tensor_ij)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/kernel_gws_new.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -660,7 +660,7 @@ def kernel_spat_corr_gpu_code(lat, write_code=False):
 
     kernel_name = 'kernel_spat_corr'
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/spatial_corr.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -892,7 +892,7 @@ class Simulation:
     def __init__(self, model, lat, V, a_in, fields0, pis0, steps = 1000000,
                  filetype='silo'):
 
-        print "-" * 79
+        print("-" * 79)
 
         self.t = model.t_in
         self.t_list = [model.t_in]
@@ -967,7 +967,7 @@ class Simulation:
            can cause kernel fail."""
         if cuda.Device.count() == 1 and steps > 1000000:
             self.steps = 1000000
-            print 'Only one CUDA device detected. Set steps to 1000000.\n'
+            print('Only one CUDA device detected. Set steps to 1000000.\n')
         elif cuda.Device.count() == 1 and steps <= 1000000:
             self.steps = steps
         elif cuda.Device.count() > 1:
@@ -1033,7 +1033,7 @@ class Simulation:
         ###################
         """
         if lat.test:
-            print'Testing mode on! Set testQ to False to disable this.\n'
+            print('Testing mode on! Set testQ to False to disable this.\n')
         
         self.fields0 = fields0
         self.pis0 = pis0
@@ -1043,7 +1043,7 @@ class Simulation:
         self.fields = [field(model, lat, V, fields0[i], pis0[i], i+1,
                              self.m2_eff[i], a_in, lat.init_mode,
                              lat.hom_mode)
-                       for i in xrange(lat.fields)]
+                       for i in range(lat.fields)]
 
         "Function to calculate the numerical value of the potential function:"
         self.V = V_func(lat, V)
@@ -1207,7 +1207,7 @@ class Simulation:
         diff_list = np.diff(tmp)
 
         k2_bins = [tmp[0]]
-        for i in xrange(1,len(diff_list)+1):
+        for i in range(1,len(diff_list)+1):
             if abs(diff_list[i-1])>1e-14:
                 k2_bins.append(tmp[i])
 
@@ -1223,7 +1223,7 @@ class Simulation:
            perturbations and cause no problems."""
 
         if new_len > len(k2_bins):
-            for i in xrange(new_len-len(k2_bins)):
+            for i in range(new_len-len(k2_bins)):
                 k2_bins.append(-1.)
 
         self.k2_bins = lat.dx**-2.*np.array(k2_bins, dtype=lat.prec_real)
@@ -1772,7 +1772,7 @@ class Simulation:
         self.fields = [field(model, lat, V, fields0[i], pis0[i], i+1,
                              self.m2_eff[i], a, lat.init_mode,
                              lat.hom_mode)
-                       for i in xrange(lat.fields)]
+                       for i in range(lat.fields)]
                  
         "Reset variables used in linearized evo:"
         if self.lin_evo:
@@ -2114,12 +2114,12 @@ class Evolution:
 
     def __init__(self, lat, V, sim, write_code=True):
 
-        print "-" * 79
-        print 'Compiling necessary evolution kernels:'
+        print("-" * 79)
+        print('Compiling necessary evolution kernels:')
 
         self.H2_kernel = H2_Kernel(lat, write_code)
         self.H3_kernels = [[H3_Kernel(lat, i+1, V, write_code)
-                           for i in xrange(lat.fields)]]
+                           for i in range(lat.fields)]]
         if lat.gws:
             self.H3_kernels.append([gws_Kernel(lat, ij, V, write_code)
                                     for ij in sim.tensor_ij_ind])
@@ -2129,7 +2129,7 @@ class Evolution:
             self.lin_evo_kernel = lin_evo_Kernel(lat, V, sim, write_code)
 
         self.rp_kernels = [rp_Kernel(lat, i+1, V, write_code)
-                           for i in xrange(lat.fields)]
+                           for i in range(lat.fields)]
 
         self.sc_kernel = corr_Kernel(lat, write_code)
 
@@ -2347,7 +2347,7 @@ class Evolution:
                        sim.sum_rho_squ_gpu]
         self.cuda_param_sc = dict(block=lat.cuda_block_2, grid=lat.cuda_grid)
 
-        print "-" * 79
+        print("-" * 79)
 
     def calc_rho_pres(self, lat, V, sim, print_Q = True, print_w = False,
                       flush = True):
@@ -2776,15 +2776,15 @@ def calc_rho_pres(lat, V, sim, rp_list, cuda_param_rp, cuda_args,
         #       ' a {4:5} p/VL {5:5}').format(*values)
         values = [i0, Fried_1, num_error_rel, lat.m*sim.t, sim.a,
                   sim.H/lat.m]
-        print ('i0 {0} rho-error {1:5} k/(a^2H^2) {2:5} t [1/m] {3:5}'+
-               ' a {4:5} H/m {5:5}').format(*values)
+        print(('i0 {0} rho-error {1:5} k/(a^2H^2) {2:5} t [1/m] {3:5}'+
+               ' a {4:5} H/m {5:5}').format(*values))
 
     if print_w:
-        print 'Ω_field {0}, Ω_γ {1}, Ω_m {2}'.format(omega_f,
+        print('Ω_field {0}, Ω_γ {1}, Ω_m {2}'.format(omega_f,
                                                      omega_rad,
-                                                     omega_mat)
+                                                     omega_mat))
 
-        print  'Equations of state', w
+        print('Equations of state', w)
 
 def calc_rho_pres_back(lat, V, sim, print_Q, flush=True):
     """This function updates the background energy density for
@@ -2818,8 +2818,8 @@ def calc_rho_pres_back(lat, V, sim, print_Q, flush=True):
     if print_Q == True:
         values = [i0, Fried_1, num_error_rel, lat.m*sim.t, sim.a,
                   p/VL]
-        print ('i0 {0} rho-error {1:5} k/(a^2H^2) {2:5} t [1/m] {3:5}'+
-               ' a {4:5} p/VL {5:5}').format(*values)
+        print(('i0 {0} rho-error {1:5} k/(a^2H^2) {2:5} t [1/m] {3:5}'+
+               ' a {4:5} p/VL {5:5}').format(*values))
 
 def calc_rho_pres_hom(lat, V, sim, print_Q, flush=True):
     """This function updates the background energy density for
@@ -2875,8 +2875,8 @@ def calc_rho_pres_hom(lat, V, sim, print_Q, flush=True):
     if print_Q == True:
         values = [i0, Fried_1, num_error_rel, lat.m*sim.t_hom, sim.a_hom,
                   p/VL]
-        print ('i0 {0} rho-error {1:5} k/(a^2H^2) {2:5} t [1/m] {3:5}'+
-               ' a {4:5} p/VL {5:5}').format(*values)
+        print(('i0 {0} rho-error {1:5} k/(a^2H^2) {2:5} t [1/m] {3:5}'+
+               ' a {4:5} p/VL {5:5}').format(*values))
 
 def rho_field(lat, V, a, pis, fields):
 

@@ -3,11 +3,11 @@ import pycuda.gpuarray as gpuarray
 
 import numpy as np
 
-import integrator.symp_integrator as si
-import postprocess.procedures as pp
+from . import integrator.symp_integrator as si
+from . import postprocess.procedures as pp
 
-import solvers as solv
-from lattice import *
+from . import solvers as solv
+from .lattice import *
 
 """
 ###############################################################################
@@ -16,7 +16,7 @@ from lattice import *
 """
 "Necessary constants defined in the model file:"
 
-from models.chaotic import *
+from .models.chaotic import *
 #from models.chaotic_massless import *
 #from models.curvaton import *
 #from models.curvaton_si import *
@@ -80,7 +80,7 @@ Start Simulation
 
 "Solve only background evolution:"
 if model.homogenQ:
-    print '\nSolving homogeneous equations:\n'
+    print('\nSolving homogeneous equations:\n')
 
     solv.run_hom(lat, V, model, start, end, order = 4)
 
@@ -97,7 +97,7 @@ if model.homogenQ:
 non-Gaussianity studies:"""
 
 if model.evoQ:
-    print '\nRunning ' + str(model.sim_num) + ' simulation(s):'
+    print('\nRunning ' + str(model.sim_num) + ' simulation(s):')
 
     solv.run_non_linear(lat, V, sim, evo, postp, model, start, end,
                         data_path, order = 4, endQ = 'time', print_Q = True,
@@ -116,7 +116,7 @@ if model.zetaQ:
     r_decay = 0.0369633
 
     "List of different homogeneous initial values for fields:"
-    f0_list = [[model.f10 + i/20.*model.delta_f10/2.] for i in xrange(-20,21)]
+    f0_list = [[model.f10 + i/20.*model.delta_f10/2.] for i in range(-20,21)]
 
     for fields0 in f0_list:
         solv.reinit(lat, V, sim, evo, model, model.a_in, fields0, model.pis0)
@@ -141,4 +141,4 @@ Simulation finished
 ####################
 """
 
-print 'Done.'
+print('Done.')

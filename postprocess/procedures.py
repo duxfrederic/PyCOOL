@@ -14,7 +14,7 @@ def kernel_pd_gpu_code(lat, V, field_i, write_code=False):
 
     kernel_name = 'kernel_pd_' + 'field' + str(field_i)
 
-    print 'Compiling kernel: ' + kernel_name
+    print('Compiling kernel: ' + kernel_name)
 
     f = codecs.open('cuda_templates/pd_kernel.cu','r',encoding='utf-8')
     evo_code = f.read()
@@ -51,7 +51,7 @@ def kernel_pd_gpu_code(lat, V, field_i, write_code=False):
 
     if lat.tmpQ:
         tmp_trms = ''
-        for j in xrange(len(V.tmp_terms)):
+        for j in range(len(V.tmp_terms)):
             tmp_trms += 'tmp' + str(j + 1) + ' = ' + V.tmp_terms[j] + ';\n'
         trms = len(V.tmp_terms)
     else:
@@ -199,10 +199,10 @@ class Postprocess:
         #import postprocess.calc_gw_spect as gws
         import postprocess.calc_spect as calc
 
-        print 'Compiling necessary post-processing kernels:'
+        print('Compiling necessary post-processing kernels:')
 
         self.pd_kernels = [Pd_Kernel(lat, V, i, write_code)
-                           for i in xrange(1,lat.fields+1)]
+                           for i in range(1,lat.fields+1)]
 
         "Load the discretization coefficients to constant memory:"
         for kernel in self.pd_kernels:
@@ -214,7 +214,7 @@ class Postprocess:
 
         if lat.spect or lat.gws:
 
-            print '\nCalculating momentum vectors k_x, k_y and k_z\n'
+            print('\nCalculating momentum vectors k_x, k_y and k_z\n')
 
             if lat.discQ == 'defrost':
                 if lat.gws and lat.spect_m_gw == 'std':
@@ -292,7 +292,7 @@ class Postprocess:
                 sim.W_gw = np.zeros(sim.k_bins_gw, dtype = np.int32)
 
 
-        print "-" * 79
+        print("-" * 79)
 
     def calc_pd(self, lat, V, sim):
         """Calculate m_eff^2-a''/a in conformal time.
@@ -412,7 +412,7 @@ class Postprocess:
                     total_rho = 0.
 
                     "Note that only non-homogeneous modes are included:"
-                    for i in xrange(1,lat.ns):
+                    for i in range(1,lat.ns):
                         if field.k_vals[i] > np.sqrt(field.m2_eff):
                             rel_num += (field.n_k[i]*field.W[i])
                         total_N += (field.n_k[i]*field.W[i])
@@ -470,7 +470,7 @@ class Postprocess:
                     total_rho = 0.
 
                     "Note that only non-homogeneous modes are included:"
-                    for i in xrange(1,lat.ns):
+                    for i in range(1,lat.ns):
                         if field.k_vals[i] > np.sqrt(field.m2_eff):
                             rel_num += (field.n_k[i]*field.W_df[i])
                         total_N += (field.n_k[i]*field.W_df[i])
@@ -532,7 +532,7 @@ class Postprocess:
                     total_rho = 0.
 
                     "Note that only non-homogeneous modes are included:"
-                    for i in xrange(1,len(field.k_vals)):
+                    for i in range(1,len(field.k_vals)):
                         if field.k_vals[i] > np.sqrt(field.m2_eff):
                             rel_num += (field.n_k[i]*field.W[i])
                         total_N += (field.n_k[i]*field.W[i])
@@ -761,13 +761,13 @@ class Postprocess:
 
         files = files_in_folder(path=data_path, filetype=sim.filetype)
 
-        print "-" * 79
+        print("-" * 79)
 
-        print 'Calculating the spectrums:\n'
+        print('Calculating the spectrums:\n')
 
         k = 1
         for filename in files:
-            print 'Calculating spectrum ' + str(k) + ' of ' + str(len(files))
+            print('Calculating spectrum ' + str(k) + ' of ' + str(len(files)))
 
             sim.read(lat, filename)
 
@@ -817,12 +817,12 @@ class Postprocess:
 
         for zeta_file in zeta_files:
             csv_file = open(zeta_file,'r')
-            names=csv_file.next()
+            names=next(csv_file)
 
-            f0_in = float(csv_file.next())
-            H_ref = float(csv_file.next())
-            ln_arr = np.fromstring(csv_file.next(), dtype=np.float64, sep=',')
-            r_arr = np.fromstring(csv_file.next(), dtype=np.float64, sep=',')
+            f0_in = float(next(csv_file))
+            H_ref = float(next(csv_file))
+            ln_arr = np.fromstring(next(csv_file), dtype=np.float64, sep=',')
+            r_arr = np.fromstring(next(csv_file), dtype=np.float64, sep=',')
 
             sim.ln_a_list.append([f0_in,H_ref,ln_arr])
             sim.r_list.append([f0_in,H_ref,r_arr])
@@ -857,7 +857,7 @@ class Postprocess:
         index = np.where(abs(np.array(f0_list)-model.fields0) < 1e-15)[i]
 
         if len(index)==0:
-            print "Index of sim.fields0 in f0_list not found."
+            print("Index of sim.fields0 in f0_list not found.")
         
 
         ln_a = [np.array(x[2]) for x in sim.ln_a_list]

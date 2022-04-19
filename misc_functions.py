@@ -10,7 +10,7 @@ function given in string format to a form suitable to CUDA (i.e. C).
 
 def replace_all(text, dic):
     "Use the replacement rules from dictionary dic to text string"
-    for i, j in dic.iteritems():
+    for i, j in dic.items():
         text = text.replace(i, j)
     return text
 
@@ -18,7 +18,7 @@ def rep(f,n):
     """Write a (string) function 'f**n' into form 'f*f*...*f'
     i.e. write the multiplication open for CUDA."""
     tmp = f
-    for i in xrange(n-1):
+    for i in range(n-1):
         tmp = f + '*' + tmp
     return tmp
 
@@ -27,15 +27,15 @@ def format_to_cuda(V,var_list,C_list,D_list,n):
     n = the degree of V."""
     tmp = V
     for f in var_list:
-        for i in reversed(xrange(1,n+1)):
+        for i in reversed(range(1,n+1)):
             tmp = tmp.replace(f+'**'+str(float(i)),rep(f,i))
             tmp = tmp.replace(f+'**'+str(i),rep(f,i))
     for C in C_list:
-        for i in reversed(xrange(1,n+1)):
+        for i in reversed(range(1,n+1)):
             tmp = tmp.replace(C+'**'+str(float(i)),rep(f,i))
             tmp = tmp.replace(C+'**'+str(i),rep(f,i))
     for D in D_list:
-        for i in reversed(xrange(1,n+1)):
+        for i in reversed(range(1,n+1)):
             tmp = tmp.replace(D+'**'+str(float(i)),rep(f,i))
             tmp = tmp.replace(D+'**'+str(i),rep(f,i))
     return tmp
@@ -52,9 +52,9 @@ def new_poly(V_s, fields, n_coeffs):
     d = P.as_dict()
     e = {}
     
-    for key in d.iterkeys():
+    for key in d.keys():
         #print d[key], str(d[key])
-        for i in xrange(1, n_coeffs+1):
+        for i in range(1, n_coeffs+1):
             if 'C' + str(i) in str(d[key]):
                 e[key] = sympify('C'+str(i))
 
@@ -80,7 +80,7 @@ def V_calc(V_string, n, field_list, field_i, power_list,
         m = sympify(multiplier)
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     tmp = simplify(((m*diff(V, field_list[field_i-1], deriv_n)).expand()))
 
@@ -122,21 +122,21 @@ def V_calc(V_string, n, field_list, field_i, power_list,
 
     "Replace C_is and D_is with the appropiate strings:"
     r_cuda_V = {}
-    for i in xrange(n_coeffs):
+    for i in range(n_coeffs):
         r_cuda_V.update({'C'+str(i+1):const_name+'['+str(i0+i)+']'})
-    for i in xrange(n2_coeffs):
+    for i in range(n2_coeffs):
         r_cuda_V.update({'D'+str(i+1):const2_name+'['+str(i1+i)+']'})
 
     r_cuda_dV = {}
-    for i in xrange(n_coeffs):
+    for i in range(n_coeffs):
         r_cuda_dV.update({'C'+str(i+1):const_name+'['+str(i0+i)+']'})
-    for i in xrange(n2_coeffs):
+    for i in range(n2_coeffs):
         r_cuda_dV.update({'D'+str(i+1):const2_name+'['+str(i1+i)+']'})
 
     r_cuda_d2V = {}
-    for i in xrange(n_coeffs):
+    for i in range(n_coeffs):
         r_cuda_d2V.update({'C'+str(i+1):const_name+'['+str(i0+i)+']'})
-    for i in xrange(n2_coeffs):
+    for i in range(n2_coeffs):
         r_cuda_d2V.update({'D'+str(i+1):const2_name+'['+str(i1+i)+']'})
 
 
@@ -152,7 +152,7 @@ def V_calc(V_string, n, field_list, field_i, power_list,
 
     if tmpQ:
         tmp_rules = {}
-        for i in xrange(len(tmp_list)):
+        for i in range(len(tmp_list)):
             tmp_rules.update({tmp_list[i]:'tmp'+str(i+1)})
         res2 = replace_all(res, tmp_rules)
     else:
@@ -179,32 +179,32 @@ def V_calc_lin(V_string, n, field_list, field_i, power_list,
         m = sympify(multiplier)
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     #tmp = ((m*diff(V, field_list[field_i-1], deriv_n)).expand()).evalf()
     tmp = (m*diff(V, field_list[field_i-1], deriv_n)).expand()
 
     "Replace C_i's and D_i's with the appropiate numerical values:"
     r_V_back = {}
-    for i in xrange(n_coeffs):
+    for i in range(n_coeffs):
         r_V_back.update({'C'+str(i+1):C_vals[i]})
-    for i in xrange(n2_coeffs):
+    for i in range(n2_coeffs):
         r_V_back.update({'D'+str(i+1):D_vals[i]})
 
     r_dV_back = {}
-    for i in xrange(n_coeffs):
+    for i in range(n_coeffs):
         r_dV_back.update({'C'+str(i+1):C_vals[i]})
-    for i in xrange(n2_coeffs):
+    for i in range(n2_coeffs):
         r_dV_back.update({'D'+str(i+1):D_vals[i]})
 
     r_d2V_back = {}
-    for i in xrange(n_coeffs):
+    for i in range(n_coeffs):
         r_d2V_back.update({'C'+str(i+1):C_vals[i]})
-    for i in xrange(n2_coeffs):
+    for i in range(n2_coeffs):
         r_d2V_back.update({'D'+str(i+1):D_vals[i]})
 
     f_repl = {}
-    for i in xrange(len(field_list)):
+    for i in range(len(field_list)):
         f_repl.update({'f'+str(i+1):'f0'+str(i+1)+'[0]'})
 
     if deriv_n == 0:
@@ -272,20 +272,20 @@ def rho_init(V, fields0, pis0):
         V = sympify(V_string)
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     rep_list = {}
-    for i in xrange(len(C_coeff)):
+    for i in range(len(C_coeff)):
         rep_list.update({'C'+str(i+1):C_coeff[i]})
-    for i in xrange(len(D_coeff)):
+    for i in range(len(D_coeff)):
         rep_list.update({'D'+str(i+1):D_coeff[i]})
 
-    for i in xrange(len(fields0)):
+    for i in range(len(fields0)):
         rep_list.update({'f'+str(i+1):fields0[i]})
 
     rho0 = 0.
     
-    for i in xrange(len(fields0)):
+    for i in range(len(fields0)):
         rho0 += 0.5*pis0[i]**2.0
 
     "Initial value of the potential function:"
@@ -311,16 +311,16 @@ def mass_eff(V, field_list, fields0, H0, deSitter=False):
         d2V = [diff(sympify(V_string),f,2) for f in field_list]
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     "Replacement list f(t)->f(t0), C_i->C_coeff[i], D_i->D_coeff[i]:"
     rep_list = {}
-    for i in xrange(len(C_coeff)):
+    for i in range(len(C_coeff)):
         rep_list.update({'C'+str(i+1):C_coeff[i]})
-    for i in xrange(len(D_coeff)):
+    for i in range(len(D_coeff)):
         rep_list.update({'D'+str(i+1):D_coeff[i]})
 
-    for i in xrange(len(fields0)):
+    for i in range(len(fields0)):
         rep_list.update({'f'+str(i+1):fields0[i]})
 
     "If a deSitter space include also a''/a term:"
@@ -335,7 +335,7 @@ def mass_eff(V, field_list, fields0, H0, deSitter=False):
     for mass in m2eff:
         if mass <0:
             import sys
-            print 'Mass squared negative!'
+            print('Mass squared negative!')
             sys.exit()
 
 
@@ -359,13 +359,13 @@ def V_func(lat, V):
         V = sympify(V_string)
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     "Replacement list C_i->C_coeff[i], D_i->D_coeff[i]:"
     rep_list = {}
-    for i in xrange(len(C_coeff)):
+    for i in range(len(C_coeff)):
         rep_list.update({'C'+str(i+1):C_coeff[i]})
-    for i in xrange(len(D_coeff)):
+    for i in range(len(D_coeff)):
         rep_list.update({'D'+str(i+1):D_coeff[i]})
     
     V_func = lambdify(field_list,V.subs(rep_list))
@@ -389,13 +389,13 @@ def dV_func(lat, V, field_var):
         dV = diff(sympify(V_string),field_var)
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     "Replacement list C_i->C_coeff[i], D_i->D_coeff[i]:"
     rep_list = {}
-    for i in xrange(len(C_coeff)):
+    for i in range(len(C_coeff)):
         rep_list.update({'C'+str(i+1):C_coeff[i]})
-    for i in xrange(len(D_coeff)):
+    for i in range(len(D_coeff)):
         rep_list.update({'D'+str(i+1):D_coeff[i]})
 
     dV_func = lambdify(field_list,dV.subs(rep_list))
@@ -419,13 +419,13 @@ def d2V_func(lat, V, field_var):
         d2V = diff(sympify(V_string),field_var,2)
 
     except SympifyError:
-        print "Could not parse expression."
+        print("Could not parse expression.")
 
     "Replacement list C_i->C_coeff[i], D_i->D_coeff[i]:"
     rep_list = {}
-    for i in xrange(len(C_coeff)):
+    for i in range(len(C_coeff)):
         rep_list.update({'C'+str(i+1):C_coeff[i]})
-    for i in xrange(len(D_coeff)):
+    for i in range(len(D_coeff)):
         rep_list.update({'D'+str(i+1):D_coeff[i]})
     
     d2V_func = lambdify(field_list,d2V.subs(rep_list))
@@ -573,7 +573,7 @@ def sim_time(time_sim, per_stp, steps, data_path):
 
     steps = ('Number of steps taken: ' + str(steps) + '\n')
 
-    print sim_time
+    print(sim_time)
 
     f = open(data_path + '/info.txt','a')
     f.write(sim_time)
@@ -646,7 +646,7 @@ def write_csv(lat, data_path, mode = 'non-lin', source = 'silo'):
 
         os.makedirs(data_path + '/csv')
 
-        print 'Writing ' + str(len(files)) +  ' cvs files.'
+        print('Writing ' + str(len(files)) +  ' cvs files.')
 
         i = 0
         for x in files:
@@ -696,9 +696,9 @@ def show_GPU_mem():
     mem_used = float(cuda.mem_get_info()[1] - cuda.mem_get_info()[0])
     mem_used_per = mem_used/float(cuda.mem_get_info()[1])
     
-    print '\nGPU memory available {0} Mbytes, {1} % of total \n'.format(
-    mem_free/1024**2, 100*mem_free_per)
+    print('\nGPU memory available {0} Mbytes, {1} % of total \n'.format(
+    mem_free/1024**2, 100*mem_free_per))
     
-    print 'GPU memory used {0} Mbytes, {1} % of total \n'.format(
-    mem_used/1024**2, 100*mem_used_per)
+    print('GPU memory used {0} Mbytes, {1} % of total \n'.format(
+    mem_used/1024**2, 100*mem_used_per))
 
