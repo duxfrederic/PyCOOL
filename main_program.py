@@ -3,10 +3,10 @@ import pycuda.gpuarray as gpuarray
 
 import numpy as np
 
-from . import integrator.symp_integrator as si
-from . import postprocess.procedures as pp
+import integrator.symp_integrator as si
+import postprocess.procedures as pp
 
-from . import solvers as solv
+import solvers as solv
 from .lattice import *
 
 """
